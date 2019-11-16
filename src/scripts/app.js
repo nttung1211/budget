@@ -19,16 +19,19 @@ let appController = ((budgetCtrl, UICtrl) => {
 
     function deleteItem(e) {
         if (e.target.parentNode.className === `item__delete--btn`) {
-            UICtrl.delItem(e.target);
-            let type = e.target.parentNode.parentNode.parentNode.parentNode.id.slice(0, 3)
-            budgetCtrl.delItem(e.target.parentNode.parentNode.parentNode.parentNode.id.slice(4), type);
-            budgetCtrl.showData();
+            let item = e.target.parentNode.parentNode.parentNode.parentNode,
+                splitID = item.id.split(`-`),
+                id = splitID[1],
+                type = splitID[0];
+            UICtrl.delItem(item);
+            budgetCtrl.delItem(id, type);
         }
+        updateBudget();
     }
 
-    function updateBudget(type) {
+    function updateBudget() {
         // 1. Calculate the budget
-        budgetCtrl.calculateBudget(type);
+        budgetCtrl.calculateBudget();
 
         // 2. return the output
         let output = budgetCtrl.getOutput();
@@ -60,7 +63,7 @@ let appController = ((budgetCtrl, UICtrl) => {
             UICtrl.clearFields();
     
             // 5. Update butget
-            updateBudget(input.addType);
+            updateBudget();
             
             budgetCtrl.showData();
         }

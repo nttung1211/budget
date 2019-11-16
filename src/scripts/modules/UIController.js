@@ -42,7 +42,7 @@ export let UIController = (() => {
                         <div class="item__description">${item.description}</div>
                         <div class="right clearfix">
                             <div class="item__value">- ${item.value}</div>
-                            <div class="item__percentage">21%</div>
+                            <div class="item__percentage">- - -</div>
                             <div class="item__delete">
                                 <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
                             </div>
@@ -52,8 +52,8 @@ export let UIController = (() => {
             }
         },
 
-        delItem(eventTarget) {
-            eventTarget.parentNode.parentNode.parentNode.parentNode.remove();
+        delItem(item) {
+            item.remove();
         },
 
         displayOutput(output) {
@@ -61,6 +61,8 @@ export let UIController = (() => {
             DOMElements.totalInc.innerHTML = `+${output.totalInc}`;
             DOMElements.totalExp.innerHTML = `-${output.totalExp}`;
             DOMElements.totalPercentage.innerHTML = output.totalPercentage !== -1 ? `${output.totalPercentage}%`: `- - -`;
+            let expPercentages = [...document.querySelectorAll(`.item__percentage`)];
+            expPercentages.forEach(expPer => expPer.innerHTML = output.totalPercentage !== -1 ? `${output.expPercentages[expPercentages.indexOf(expPer)]}%`: `- - -`);
         },
 
         clearFields() {

@@ -52,14 +52,18 @@ export let BudgetController = (() => {
             }
         },
 
-        calculateBudget(type) {
+        calculateBudget() {
             // calculate total income and expenses
-            data.total[type] = data.items[type].reduce((total, item) => total += item.value, 0);
+            data.total.inc = data.items.inc.reduce((total, item) => total += item.value, 0);
+            data.total.exp = data.items.exp.reduce((total, item) => total += item.value, 0);
+
+            // calculate the expense percentage
+            data.items.exp.forEach(item => item.percentage = +((item.value / data.total.inc * 100).toFixed(1)));
 
             // calculate the budget
             data.budget = data.total.inc - data.total.exp;
 
-            // calculate the percentage
+            // calculate the total percentage
             data.totalPercentage = data.total.inc ? +((data.total.exp / data.total.inc) * 100).toFixed(1) : -1;
         }, 
 
@@ -68,7 +72,8 @@ export let BudgetController = (() => {
                 budget: data.budget,
                 totalInc: data.total.inc,
                 totalExp: data.total.exp,
-                totalPercentage: data.totalPercentage
+                totalPercentage: data.totalPercentage,
+                expPercentages: data.items.exp.map(item => item.percentage)
             }
         },
 
