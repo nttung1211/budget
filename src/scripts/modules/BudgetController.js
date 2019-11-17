@@ -6,6 +6,9 @@ export let BudgetController = (() => {
             this.description = description;
             this.value = value;
         }
+        getPercentage(totalInc) {
+            return this.percentage = totalInc ? +(this.value / totalInc * 100).toFixed(1) : -1;
+        }
     }
 
     class Income {
@@ -57,8 +60,10 @@ export let BudgetController = (() => {
             data.total.inc = data.items.inc.reduce((total, item) => total += item.value, 0);
             data.total.exp = data.items.exp.reduce((total, item) => total += item.value, 0);
 
-            // calculate the expense percentage
-            data.items.exp.forEach(item => item.percentage = +((item.value / data.total.inc * 100).toFixed(1)));
+            // calculate the expense percentages
+            data.items.exp.forEach(item => {
+                item.getPercentage(data.total.inc);
+            });
 
             // calculate the budget
             data.budget = data.total.inc - data.total.exp;

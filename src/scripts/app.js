@@ -14,7 +14,8 @@ let appController = ((budgetCtrl, UICtrl) => {
                 ctrlAddItem();
             }
         });
-        document.querySelector(`.container`).addEventListener(`click`, deleteItem);
+        DOMElements.container.addEventListener(`click`, deleteItem);
+        DOMElements.addType.addEventListener(`input`, UICtrl.changeType);
     }
 
     function deleteItem(e) {
@@ -52,26 +53,20 @@ let appController = ((budgetCtrl, UICtrl) => {
             // 3. Add the item into the UI
             UICtrl.addItem(input.addType, newItem);
 
-            // let newUIItem = document.querySelector(`#${input.addType}-${newItem.id}`);
-            // newUIItem.querySelector(`.ion-ios-close-outline`).addEventListener(`click`, function(e) {
-            //     UICtrl.delItem(newUIItem);
-            //     budgetCtrl.delItem(newItem.id, input.addType);
-            //     budgetCtrl.showData();
-            // });
-
             // 4. Clear fields
             UICtrl.clearFields();
     
             // 5. Update butget
             updateBudget();
             
-            budgetCtrl.showData();
+            // budgetCtrl.showData();
         }
 
     }
 
     return {
         init: () => {
+            UICtrl.displayDate();
             UICtrl.displayOutput({
                 budget: 0,
                 totalInc: 0,
@@ -84,3 +79,11 @@ let appController = ((budgetCtrl, UICtrl) => {
 })(BudgetController, UIController);
 
 appController.init();
+
+
+// let newUIItem = document.querySelector(`#${input.addType}-${newItem.id}`);
+            // newUIItem.querySelector(`.ion-ios-close-outline`).addEventListener(`click`, function(e) {
+            //     UICtrl.delItem(newUIItem);
+            //     budgetCtrl.delItem(newItem.id, input.addType);
+            //     budgetCtrl.showData();
+            // });
